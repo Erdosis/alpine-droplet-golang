@@ -19,6 +19,16 @@ rc-update add net.lo boot
 mkdir -p /root/.ssh
 chmod 700 /root/.ssh
 
+# Install Golang
+apk --no-cache add ca-certificates
+apk --no-cache add --update go
+
+# Set Go environment variables
+echo 'export GOPATH=$HOME/go' >> $HOME/.profile
+echo 'export PATH=$PATH:$GOPATH/bin' >> $HOME/.profile
+. $HOME/.profile
+
+
 # Grab config from DigitalOcean metadata service
 cat > /bin/do-init <<-EOF
 #!/bin/sh
