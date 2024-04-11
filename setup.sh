@@ -23,11 +23,19 @@ chmod 700 /root/.ssh
 apk --no-cache add ca-certificates
 apk --no-cache add --update go
 
+# Install Python
+apk -U upgrade
+apk add --update python3 && ln -sf python3 /usr/bin/python
+ln -sf python3 /usr/bin/python
+
 # Set Go environment variables
 echo 'export GOPATH=$HOME/go' >> $HOME/.profile
 echo 'export PATH=$PATH:$GOPATH/bin' >> $HOME/.profile
 . $HOME/.profile
 
+# Increase ULIMIT
+echo 'ulimit -n 20480' >> /etc/profile.d/custom_ulimit.sh
+ulimit -n 20480
 
 # Grab config from DigitalOcean metadata service
 cat > /bin/do-init <<-EOF
